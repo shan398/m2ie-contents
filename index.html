@@ -1165,6 +1165,81 @@ input:focus,textarea:focus { border-color:#ff3c72; box-shadow:0 0 0 3px rgba(255
   .capability-set[aria-hidden="true"]{display:none}
 }
 
+
+
+/* =========================================================
+   CONVERSION UX V8 — bigger inquiry + submitted state
+   ========================================================= */
+.quick-inquiry{
+  width:min(940px,calc(100vw - 32px));
+  padding:21px 23px 22px;
+  border-radius:22px;
+  border-color:rgba(255,255,255,.34);
+  background:rgba(8,8,10,.96);
+}
+.qi-title{font-size:16px;margin:0 0 14px;font-weight:780}
+.qi-form{gap:13px}
+.qi-fields{gap:10px}
+.qi-fields input{
+  min-height:46px;padding:12px 14px;font-size:13px;border-radius:12px;
+}
+.qi-submit{width:132px;min-height:102px;border-radius:15px;font-size:14px}
+
+.submission-success{
+  min-height:250px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:32px 22px;
+}
+.submission-success-quick{min-height:116px;padding:10px 12px}
+.submission-success-icon{
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  margin-bottom:14px;color:#fff;font-size:20px;font-weight:800;
+  background:linear-gradient(135deg,#ff7540,#ff2f68 55%,#f21786);
+  box-shadow:0 14px 34px rgba(255,47,104,.22);
+}
+.submission-success-quick .submission-success-icon{width:36px;height:36px;font-size:16px;margin-bottom:9px}
+.submission-success h3{margin:0;color:#fff;font-size:22px;letter-spacing:-.035em}
+.submission-success p{margin:7px 0 0;color:#9b9ba4;font-size:13px;line-height:1.55}
+.submission-success-quick h3{font-size:17px}
+.submission-success-quick p{font-size:11px;margin-top:4px}
+
+/* Tonakai campaign explainer */
+.tonakai-campaign{
+  padding:18px 0 74px;background:#08080a;
+}
+.tonakai-campaign-inner{
+  border:1px solid rgba(255,255,255,.08);border-radius:26px;
+  background:linear-gradient(150deg,rgba(255,63,105,.07),rgba(255,255,255,.018) 42%,#0b0b0e 78%);
+  padding:30px;
+}
+.tonakai-campaign-head{display:flex;justify-content:space-between;gap:40px;align-items:flex-end;margin-bottom:25px}
+.tonakai-campaign-head h3{margin:4px 0 0;color:#fff;font-size:clamp(25px,2.9vw,38px);letter-spacing:-.045em;line-height:1.08}
+.tonakai-campaign-head p{margin:0;max-width:470px;color:#85858e;font-size:12px;line-height:1.65;text-align:right}
+.tonakai-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tonakai-step{padding:18px;border-radius:17px;background:#0d0d10;border:1px solid rgba(255,255,255,.07);min-height:142px}
+.tonakai-step-no{display:block;color:#ff597c;font-size:9px;font-weight:850;letter-spacing:.12em;margin-bottom:23px}
+.tonakai-step h4{margin:0 0 7px;color:#f5f5f6;font-size:15px;letter-spacing:-.025em}
+.tonakai-step p{margin:0;color:#777780;font-size:10px;line-height:1.55}
+.tonakai-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.tonakai-proof span{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);color:#a4a4ad;font-size:9px}
+.tonakai-proof strong{color:#fff;font-weight:780}
+
+@media(max-width:900px){
+  .tonakai-flow{grid-template-columns:repeat(2,1fr)}
+  .tonakai-campaign-head{align-items:flex-start;flex-direction:column;gap:10px}
+  .tonakai-campaign-head p{text-align:left}
+}
+@media(max-width:640px){
+  .quick-inquiry{width:calc(100vw - 20px);padding:17px;border-radius:18px}
+  .qi-title{font-size:14px}
+  .qi-form{flex-direction:column}.qi-fields{grid-template-columns:1fr 1fr}
+  .qi-submit{width:100%;min-height:46px}
+  .tonakai-campaign{padding:10px 0 54px}
+  .tonakai-campaign-inner{padding:19px;border-radius:20px}
+  .tonakai-flow{grid-template-columns:1fr}
+  .tonakai-step{min-height:auto}
+}
+
 </style>
 
 <!-- Meta Pixel Code — 아래 YOUR_PIXEL_ID를 Meta 이벤트 관리자에서 발급받은 실제 Pixel ID로 교체하세요 -->
@@ -1374,6 +1449,50 @@ fbq('track', 'PageView');
     </div>
   </section>
 
+  <!-- Tonakai campaign flow -->
+  <section class="tonakai-campaign" aria-labelledby="tonakaiCampaignTitle">
+    <div class="wrap">
+      <div class="tonakai-campaign-inner">
+        <div class="tonakai-campaign-head">
+          <div>
+            <p class="section-eyebrow">TONAKAI CAMPAIGN</p>
+            <h3 id="tonakaiCampaignTitle">제품을 보내는 것에서 끝나지 않습니다.</h3>
+          </div>
+          <p>지원 모집부터 선정, 배송 관리, 게시물 회수까지. 일본 현지 팀이 브랜드와 크리에이터 사이의 캠페인을 한 번에 운영합니다.</p>
+        </div>
+
+        <div class="tonakai-flow">
+          <article class="tonakai-step">
+            <span class="tonakai-step-no">01 · RECRUIT</span>
+            <h4>일본 크리에이터 공개 모집</h4>
+            <p>제품을 실제로 체험하고 소개하고 싶은 인플루언서가 능동적으로 지원합니다.</p>
+          </article>
+          <article class="tonakai-step">
+            <span class="tonakai-step-no">02 · MATCH</span>
+            <h4>브랜드 맞춤 선정</h4>
+            <p>브랜드 타깃과 제품 특성에 맞는 크리에이터를 일본 현지 팀이 함께 선별합니다.</p>
+          </article>
+          <article class="tonakai-step">
+            <span class="tonakai-step-no">03 · OPERATE</span>
+            <h4>현지 운영 · 로컬라이징</h4>
+            <p>오리엔 자료의 일본어 현지화부터 배송·진행 관리, PR 표기와 현지 광고 표현 기준을 고려합니다.</p>
+          </article>
+          <article class="tonakai-step">
+            <span class="tonakai-step-no">04 · COLLECT</span>
+            <h4>게시물 · UGC 회수</h4>
+            <p>게시 URL을 회수하고 실제 콘텐츠가 남도록 캠페인을 끝까지 관리합니다.</p>
+          </article>
+        </div>
+
+        <div class="tonakai-proof" aria-label="Tonakai 도입 사례">
+          <span>eeys LENS 도입 사례</span>
+          <span>Qoo10 종합 최고 <strong>4위</strong></span>
+          <span>복수 아이템 <strong>당일 완판</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section class="contact" id="contact">
     <div class="wrap contact-inner">
@@ -1465,7 +1584,7 @@ fbq('track', 'PageView');
 
 <!-- 화면 하단에 항상 떠있는 빠른 문의 카드 -->
 <div class="quick-inquiry" id="quickInquiry">
-  <p class="qi-title">콘텐츠 제작 문의 <span aria-hidden="true">⚡</span></p>
+  <p class="qi-title">일본 마케팅 시작하기 <span aria-hidden="true">⚡</span></p>
   <form id="quickInquiryForm" class="qi-form" novalidate>
     <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
     <input type="hidden" name="utm_source" />
@@ -1522,7 +1641,9 @@ fbq('track', 'PageView');
 // (인스타그램에서 직접 가져올 수는 없고, 직접 갖고 계신 파일이 있어야 합니다)
 // ---------------------------------------------------------
 const CONTENT_ITEMS = [
-  { category: "fashion", tag: "패션", name: "SHEIN Creator Reel", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-featured-poster.jpg", videoUrl: "assets/shein-featured-preview.mp4", originalUrl: "https://www.instagram.com/reels/DcstxmZh4X0/", platform: "Instagram", featured: true, metrics: { likes: "3,775", comments: "74", reposts: "26" } },
+  { category: "makeup", tag: "메이크업", name: "SHEGLAM Creator Reel", desc: "Makeup · Instagram Reel", thumbUrl: "assets/sheglam-dzkxz9kx5td-poster.jpg", videoUrl: "assets/sheglam-dzkxz9kx5td-preview.mp4", originalUrl: "https://www.instagram.com/reels/DZKxz9Kx5tD/", platform: "Instagram", featured: true, metrics: { comments: "12", reposts: "66" } },
+
+  { category: "fashion", tag: "패션", name: "SHEIN × @weld_mio", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-featured-poster.jpg", videoUrl: "assets/shein-featured-preview.mp4", originalUrl: "https://www.instagram.com/reels/DcstxmZh4X0/", platform: "Instagram", featured: true, metrics: { likes: "3,775", comments: "74", reposts: "26" } },
   { category: "fashion", tag: "패션", name: "SHEIN × @arie_swal", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-arie-poster.jpg", videoUrl: "assets/shein-arie-preview.mp4", originalUrl: "https://www.instagram.com/reels/DcqbeFmTpnR/", platform: "Instagram", featured: true, metrics: { likes: "3,919", comments: "110", reposts: "71" } },
   { category: "fashion", tag: "패션", name: "SHEIN × @kipapa0105c", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-kipapa-poster.jpg", videoUrl: "assets/shein-kipapa-preview.mp4", originalUrl: "https://www.instagram.com/reels/Dck5eB2yv4Z/", platform: "Instagram", featured: true, metrics: { likes: "2,518", comments: "19", reposts: "25" } },
   { category: "fashion", tag: "패션", name: "SHEIN × @kosameasmr", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-kosame-poster.jpg", videoUrl: "assets/shein-kosame-preview.mp4", originalUrl: "https://www.instagram.com/reels/Dck4lm6TqQG/", platform: "Instagram", featured: true, metrics: { likes: "6,368", comments: "13", reposts: "284" } },
@@ -1944,13 +2065,28 @@ function bindFormSubmit({ form, statusEl, submitBtn, idleLabel, sendingLabel, su
       const params = formToEmailParams(form);
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 
-      form.reset();
-      applyAdAttributionToForms(readStoredAttribution());
-      statusEl.textContent = successMsg;
-      statusEl.classList.add("success");
-
+      // 광고 전환 이벤트는 실제 문의 전송이 성공했을 때만 기록합니다.
       if (typeof window.fbq === "function") {
         window.fbq("track", "Lead");
+      }
+
+      const isQuick = form.id === "quickInquiryForm";
+      const successMarkup = `
+        <div class="submission-success${isQuick ? " submission-success-quick" : ""}" role="status" aria-live="polite">
+          <div class="submission-success-icon" aria-hidden="true">✓</div>
+          <h3>접수되었습니다.</h3>
+          <p>24시간 내로 담당자가 연락드릴게요!</p>
+        </div>
+      `;
+
+      if (isQuick) {
+        const shell = form.closest(".quick-inquiry");
+        if (shell) {
+          shell.innerHTML = successMarkup;
+          document.body.style.paddingBottom = `${shell.offsetHeight + 24}px`;
+        }
+      } else {
+        form.innerHTML = successMarkup;
       }
     } catch (err) {
       if (err && err.message === "EMAILJS_CONFIG_MISSING") {
@@ -1974,7 +2110,7 @@ function initLeadForm() {
     submitBtn: document.querySelector("#leadForm .btn-submit"),
     idleLabel: "문의 보내기",
     sendingLabel: "전송 중...",
-    successMsg: "문의가 접수되었습니다. 빠르게 연락드리겠습니다!",
+    successMsg: "접수되었습니다. 24시간 내로 담당자가 연락드릴게요!",
   });
 }
 
@@ -1985,7 +2121,7 @@ function initQuickInquiryForm() {
     submitBtn: document.querySelector("#quickInquiryForm .qi-submit"),
     idleLabel: "완료",
     sendingLabel: "전송 중",
-    successMsg: "접수되었습니다! 빠르게 연락드릴게요.",
+    successMsg: "접수되었습니다. 24시간 내로 담당자가 연락드릴게요!",
   });
 }
 
