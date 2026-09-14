@@ -1464,6 +1464,45 @@ input:focus,textarea:focus { border-color:#ff3c72; box-shadow:0 0 0 3px rgba(255
   letter-spacing:.12em;
 }
 
+
+/* =========================================================
+   INTERACTIVE MARQUEES — auto-scroll + mouse/touch drag
+   ========================================================= */
+.capability-marquee,
+.tonakai-marquee{
+  overflow-x:auto !important;
+  overflow-y:hidden;
+  cursor:grab;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:pan-y;
+  scrollbar-width:none;
+  overscroll-behavior-x:contain;
+  scroll-behavior:auto;
+}
+.capability-marquee::-webkit-scrollbar,
+.tonakai-marquee::-webkit-scrollbar{display:none}
+.capability-marquee.is-dragging,
+.tonakai-marquee.is-dragging{cursor:grabbing}
+.capability-marquee.is-dragging *,
+.tonakai-marquee.is-dragging *{pointer-events:none}
+
+.capability-track,
+.tonakai-marquee-track{
+  animation:none !important;
+  transform:none !important;
+  will-change:auto;
+}
+.capability-marquee:hover .capability-track,
+.tonakai-marquee:hover .tonakai-marquee-track{
+  animation-play-state:running;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .capability-set[aria-hidden="true"],
+  .tonakai-marquee-set[aria-hidden="true"]{display:flex}
+}
+
 </style>
 
 <!-- Meta Pixel Code — 아래 YOUR_PIXEL_ID를 Meta 이벤트 관리자에서 발급받은 실제 Pixel ID로 교체하세요 -->
@@ -1555,17 +1594,6 @@ fbq('track', 'PageView');
         <p class="section-desc">eeys LENS, SHEGLAM 등 실제 콘텐츠와 일본 K-Beauty 시장 레퍼런스를 확인해보세요.</p>
       </div>
 
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-btn is-active" data-filter="all">전체</button>
-        <button class="filter-btn" data-filter="skincare">스킨케어</button>
-        <button class="filter-btn" data-filter="makeup">메이크업</button>
-        <button class="filter-btn" data-filter="contactlens">컬러렌즈</button>
-        <button class="filter-btn" data-filter="hairbody">헤어/바디</button>
-        <button class="filter-btn" data-filter="oral">구강케어</button>
-        <button class="filter-btn" data-filter="nail">네일</button>
-        <button class="filter-btn" data-filter="etc">기타</button>
-      </div>
-
       <div class="content-grid" id="contentGrid">
         <!-- 카드는 js/script.js의 CONTENT_ITEMS 배열에서 자동 생성됩니다 -->
       </div>
@@ -1585,7 +1613,7 @@ fbq('track', 'PageView');
       </p>
 </div>
 
-    <div class="tonakai-marquee" aria-label="Tonakai 캠페인 진행 과정">
+    <div class="tonakai-marquee" aria-label="Tonakai 캠페인 진행 과정. 좌우로 드래그하여 확인할 수 있습니다.">
       <div class="tonakai-marquee-track">
         <div class="tonakai-marquee-set">
           <article class="tonakai-marquee-card">
@@ -1668,7 +1696,7 @@ fbq('track', 'PageView');
       <p class="capability-sub">시딩부터 캐스팅, 판매 준비, 오프라인 전개까지 한 팀에서.</p>
     </div>
 
-    <div class="capability-marquee" aria-label="M2IE와 Tonakai의 제공 서비스">
+    <div class="capability-marquee" aria-label="M2IE와 Tonakai의 제공 서비스. 좌우로 드래그하여 확인할 수 있습니다.">
       <div class="capability-track">
         <div class="capability-set">
           <article class="capability-card capability-card-accent">
@@ -2167,30 +2195,6 @@ function initIgModal() {
 }
 
 // ---------------------------------------------------------
-// 2) 카테고리 필터
-// ---------------------------------------------------------
-function initFilters() {
-  const tabs = document.getElementById("filterTabs");
-  if (!tabs) return;
-
-  tabs.addEventListener("click", (e) => {
-    const btn = e.target.closest(".filter-btn");
-    if (!btn) return;
-
-    tabs.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("is-active"));
-    btn.classList.add("is-active");
-
-    const filter = btn.dataset.filter;
-    const cards = document.querySelectorAll(".content-card");
-
-    cards.forEach((card) => {
-      const match = filter === "all" || card.dataset.category === filter;
-      card.classList.toggle("is-hidden", !match);
-    });
-  });
-}
-
-// ---------------------------------------------------------
 // 3) 모바일 내비게이션
 // ---------------------------------------------------------
 function initMobileNav() {
@@ -2444,12 +2448,115 @@ function initQuickInquiryForm() {
   });
 }
 
+
+// ---------------------------------------------------------
+// Interactive marquees
+// 자동으로 흐르되, 사용자가 마우스/손가락으로 직접 좌우로 끌어서 확인할 수 있습니다.
+// ---------------------------------------------------------
+function initInteractiveMarquee(selector, direction = "left", speed = 22) {
+  const scroller = document.querySelector(selector);
+  if (!scroller) return;
+
+  let dragging = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let resumeAt = 0;
+  let lastTime = performance.now();
+  let initialized = false;
+
+  const halfWidth = () => scroller.scrollWidth / 2;
+
+  const normalizeLoopPosition = () => {
+    const half = halfWidth();
+    if (!half) return;
+
+    if (direction === "left") {
+      if (scroller.scrollLeft >= half) scroller.scrollLeft -= half;
+      if (scroller.scrollLeft < 0) scroller.scrollLeft += half;
+    } else {
+      if (!initialized) {
+        scroller.scrollLeft = half;
+        initialized = true;
+      }
+      if (scroller.scrollLeft <= 0) scroller.scrollLeft += half;
+      if (scroller.scrollLeft > half) scroller.scrollLeft -= half;
+    }
+  };
+
+  const pauseBriefly = (ms = 1200) => {
+    resumeAt = performance.now() + ms;
+  };
+
+  scroller.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    startX = e.clientX;
+    startScrollLeft = scroller.scrollLeft;
+    scroller.classList.add("is-dragging");
+    scroller.setPointerCapture?.(e.pointerId);
+    pauseBriefly(1800);
+  });
+
+  scroller.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const delta = e.clientX - startX;
+    scroller.scrollLeft = startScrollLeft - delta;
+    normalizeLoopPosition();
+  });
+
+  const endDrag = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    scroller.classList.remove("is-dragging");
+    try { scroller.releasePointerCapture?.(e.pointerId); } catch (_) {}
+    pauseBriefly(1400);
+  };
+
+  scroller.addEventListener("pointerup", endDrag);
+  scroller.addEventListener("pointercancel", endDrag);
+  scroller.addEventListener("lostpointercapture", () => {
+    dragging = false;
+    scroller.classList.remove("is-dragging");
+    pauseBriefly(1400);
+  });
+
+  // Trackpad / mouse-wheel horizontal interaction should also pause auto motion briefly.
+  scroller.addEventListener("wheel", () => pauseBriefly(1200), { passive: true });
+  scroller.addEventListener("touchstart", () => pauseBriefly(1500), { passive: true });
+
+  const tick = (now) => {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+
+    if (!dragging && now >= resumeAt && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const delta = speed * dt;
+      scroller.scrollLeft += direction === "left" ? delta : -delta;
+      normalizeLoopPosition();
+    }
+
+    requestAnimationFrame(tick);
+  };
+
+  // Set the starting loop position after layout is ready.
+  requestAnimationFrame(() => {
+    if (direction === "right") {
+      scroller.scrollLeft = halfWidth();
+      initialized = true;
+    }
+    normalizeLoopPosition();
+    requestAnimationFrame(tick);
+  });
+}
+
+function initInteractiveMarquees() {
+  initInteractiveMarquee(".tonakai-marquee", "left", 22);
+  initInteractiveMarquee(".capability-marquee", "right", 22);
+}
+
 // ---------------------------------------------------------
 // Init
 // ---------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   renderContentGrid();
-  initFilters();
   initMobileNav();
   initVideoAutoplay();
   initIgModal();
@@ -2457,6 +2564,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initAdAttribution();
   initLeadForm();
   initQuickInquiryForm();
+  initInteractiveMarquees();
 
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
