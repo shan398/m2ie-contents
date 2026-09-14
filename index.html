@@ -1378,6 +1378,30 @@ input:focus,textarea:focus { border-color:#ff3c72; box-shadow:0 0 0 3px rgba(255
   .tonakai-brand-only{gap:6px}
 }
 
+
+.campaign-result-row{
+  display:grid;grid-template-columns:auto repeat(4,minmax(0,auto));align-items:end;gap:8px;
+  margin-top:9px;padding:9px 10px;border-radius:11px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.065);
+}
+.campaign-result-label{
+  align-self:center;color:#64646d;font-size:7px;font-weight:850;letter-spacing:.11em;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+}
+.campaign-result-row > span:not(.campaign-result-label){display:flex;flex-direction:column;gap:1px}
+.campaign-result-row strong{color:#f4f4f6;font-size:11px;font-weight:800;line-height:1}
+.campaign-result-row small{color:#696971;font-size:6.5px;text-transform:uppercase;letter-spacing:.06em}
+.market-reference-note{margin:7px 0 0;color:#575760;font-size:7px;line-height:1.4}
+@media(max-width:640px){
+  .campaign-result-row{gap:6px;padding:8px}
+  .campaign-result-row strong{font-size:10px}
+}
+
+
+.service-checkbox-group .checkbox-item{
+  min-width:0;
+}
+
 </style>
 
 <!-- Meta Pixel Code — 아래 YOUR_PIXEL_ID를 Meta 이벤트 관리자에서 발급받은 실제 Pixel ID로 교체하세요 -->
@@ -1466,15 +1490,14 @@ fbq('track', 'PageView');
           <p class="section-eyebrow">M2IE × TONAKAI</p>
           <h2 class="section-title">실제 시딩 콘텐츠</h2>
         </div>
-        <p class="section-desc">eeys LENS, SHEIN, SHEGLAM 등 일본 현지 크리에이터와 만든 실제 시딩 콘텐츠를 확인해보세요.</p>
+        <p class="section-desc">eeys LENS, SHEGLAM 등 실제 콘텐츠와 일본 K-Beauty 시장 레퍼런스를 확인해보세요.</p>
       </div>
 
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-btn is-active" data-filter="all">전체</button>
         <button class="filter-btn" data-filter="skincare">스킨케어</button>
         <button class="filter-btn" data-filter="makeup">메이크업</button>
-        <button class="filter-btn" data-filter="lens">컬러렌즈</button>
-        <button class="filter-btn" data-filter="fashion">패션</button>
+        <button class="filter-btn" data-filter="contactlens">컬러렌즈</button>
         <button class="filter-btn" data-filter="hairbody">헤어/바디</button>
         <button class="filter-btn" data-filter="oral">구강케어</button>
         <button class="filter-btn" data-filter="nail">네일</button>
@@ -1492,11 +1515,11 @@ fbq('track', 'PageView');
     <div class="wrap tonakai-marquee-head">
       <p class="section-eyebrow">TONAKAI CAMPAIGN</p>
       <h2 id="tonakaiCampaignTitle" class="tonakai-marquee-title">
-        제품을 원하는 일본 크리에이터가<br>먼저 지원합니다.
+        브랜드 측에서는 크리에이터 선정,<br>제품 발송만 하면 됩니다.
       </h2>
       <p class="tonakai-marquee-sub">
-        해외 브랜드를 위한 공모형 시딩 플랫폼. 브랜드는 제품과 셀링포인트를 전달하고,
-        후보를 확인한 뒤 제품만 발송하면 됩니다.
+        모집 등록부터 일본어 현지화, 크리에이터 커뮤니케이션과 게시물 회수까지
+        M2IE가 운영합니다.
       </p>
 
       <div class="tonakai-brand-only">
@@ -1747,6 +1770,25 @@ fbq('track', 'PageView');
         </div>
 
         <div class="form-row">
+          <label for="website">회사 공식 사이트 <span class="req">*</span></label>
+          <input type="url" id="website" name="website" required placeholder="https://example.com" inputmode="url" />
+        </div>
+
+
+        <div class="form-row">
+          <label>관심 서비스</label>
+          <div class="checkbox-group service-checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="service" value="인플루언서 시딩" /> 인플루언서 시딩</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="인플루언서 캐스팅" /> 캐스팅</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="TikTok Shop" /> TikTok Shop</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="옥외광고(OOH)" /> 옥외광고</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="SNS 운영대행" /> SNS 운영대행</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="일본 인허가" /> 인허가</label>
+            <label class="checkbox-item"><input type="checkbox" name="service" value="오프라인(팝업·이벤트·매장입점)" /> 오프라인 (팝업·이벤트·매장입점)</label>
+          </div>
+        </div>
+
+        <div class="form-row">
           <label>관심 카테고리</label>
           <div class="checkbox-group">
             <label class="checkbox-item"><input type="checkbox" name="category" value="스킨케어" /> 스킨케어</label>
@@ -1849,12 +1891,11 @@ fbq('track', 'PageView');
 // ---------------------------------------------------------
 const CONTENT_ITEMS = [
   { category: "makeup", tag: "메이크업", name: "SHEGLAM Creator Reel", desc: "Makeup · Instagram Reel", thumbUrl: "assets/sheglam-dzkxz9kx5td-poster.jpg", videoUrl: "assets/sheglam-dzkxz9kx5td-preview.mp4", originalUrl: "https://www.instagram.com/reels/DZKxz9Kx5tD/", platform: "Instagram", featured: true, metrics: { comments: "12", reposts: "66" } },
-
-  { category: "fashion", tag: "패션", name: "SHEIN × @weld_mio", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-featured-poster.jpg", videoUrl: "assets/shein-featured-preview.mp4", originalUrl: "https://www.instagram.com/reels/DcstxmZh4X0/", platform: "Instagram", featured: true, metrics: { likes: "3,775", comments: "74", reposts: "26" } },
-  { category: "fashion", tag: "패션", name: "SHEIN × @arie_swal", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-arie-poster.jpg", videoUrl: "assets/shein-arie-preview.mp4", originalUrl: "https://www.instagram.com/reels/DcqbeFmTpnR/", platform: "Instagram", featured: true, metrics: { likes: "3,919", comments: "110", reposts: "71" } },
-  { category: "fashion", tag: "패션", name: "SHEIN × @kipapa0105c", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-kipapa-poster.jpg", videoUrl: "assets/shein-kipapa-preview.mp4", originalUrl: "https://www.instagram.com/reels/Dck5eB2yv4Z/", platform: "Instagram", featured: true, metrics: { likes: "2,518", comments: "19", reposts: "25" } },
-  { category: "fashion", tag: "패션", name: "SHEIN × @kosameasmr", desc: "Fashion · Instagram Reel", thumbUrl: "assets/shein-kosame-poster.jpg", videoUrl: "assets/shein-kosame-preview.mp4", originalUrl: "https://www.instagram.com/reels/Dck4lm6TqQG/", platform: "Instagram", featured: true, metrics: { likes: "6,368", comments: "13", reposts: "284" } },
-  { category: "fashion", tag: "패션", name: "SHEIN × @ami_._._suzuki", desc: "Fashion · TikTok", thumbUrl: "assets/shein-ami-poster.jpg", videoUrl: "assets/shein-ami-preview.mp4", originalUrl: "https://www.tiktok.com/@ami_._._suzuki/video/7679012021500661010?_r=1&_t=ZS-99FxXvxxfKU", platform: "TikTok", featured: true, metrics: { likes: "1,832", comments: "25", saves: "173", shares: "20" } },
+  { category: "skincare", tag: "MARKET REF", name: "medicube × Nana", desc: "K-Beauty Japan · Instagram Reel", thumbUrl: "assets/medicube-nana-poster.jpg", videoUrl: "assets/medicube-nana-preview.mp4", originalUrl: "https://www.instagram.com/reel/C37hbq1Sw05/", platform: "Instagram", featured: true, reference: true, metrics: { likes: "3,192" }, campaign: { impressions: "821K", sales: "5K+", revenue: "¥80M+" } },
+  { category: "skincare", tag: "MARKET REF", name: "SKIN1004 × Nana", desc: "K-Beauty Japan · Instagram Reel", thumbUrl: "assets/skin1004-nana-poster.jpg", videoUrl: "assets/skin1004-nana-preview.mp4", originalUrl: "https://www.instagram.com/reel/DCWJkLzSrRh/", platform: "Instagram", featured: true, reference: true, metrics: { likes: "11,347" }, campaign: { impressions: "2.006M", sales: "40K+" } },
+  { category: "skincare", tag: "MARKET REF", name: "ANUA × @keana_nara", desc: "K-Beauty Japan · Instagram Reel", thumbUrl: "assets/anua-keana-nara-poster.jpg", videoUrl: "assets/anua-keana-nara-preview.mp4", originalUrl: "https://www.instagram.com/reel/DBlUKOTSr96/", platform: "Instagram", featured: true, reference: true, metrics: {}, campaign: { views: "720K", saves: "21K", sales: "11K+" } },
+  { category: "skincare", tag: "MARKET REF", name: "ISNTREE × Nana", desc: "K-Beauty Japan · Instagram Reel", thumbUrl: "assets/isntree-nana-poster.jpg", videoUrl: "assets/isntree-nana-preview.mp4", originalUrl: "https://www.instagram.com/reel/DKW0FxBydHD/", platform: "Instagram", featured: true, reference: true, metrics: { likes: "5,063" }, campaign: { impressions: "663K" } },
+  { category: "skincare", tag: "MARKET REF", name: "CLIO × Aya", desc: "K-Beauty Japan · Instagram Reel", thumbUrl: "assets/clio-aya-poster.jpg", videoUrl: "assets/clio-aya-preview.mp4", originalUrl: "https://www.instagram.com/reel/DAskjiYBEPp/", platform: "Instagram", featured: true, reference: true, metrics: { likes: "3,568" }, campaign: { impressions: "247K" } },
   { category: "contactlens", tag: "컬러렌즈", name: "eeys LENS × @yuna_takahashi", desc: "Color Contact · TikTok Creator", thumbUrl: "assets/shein-yuna-poster.jpg", videoUrl: "assets/shein-yuna-preview.mp4", originalUrl: "https://www.tiktok.com/@yuna_takahashi/video/7675940530055810322?_r=1&_t=ZS-992HPuSbvv8", platform: "TikTok", featured: true, metrics: { followers: "45.4K" } },
   { category: "contactlens", tag: "컬러렌즈", name: "eeys LENS × @hiyymmnx_", desc: "Color Contact · TikTok Creator", thumbUrl: "assets/eeys-hiyymmnx-poster.jpg", videoUrl: "assets/eeys-hiyymmnx-preview.mp4", originalUrl: "https://www.tiktok.com/@hiyymmnx_", platform: "TikTok", featured: true, metrics: { followers: "103.8K" } },
   { category: "contactlens", tag: "컬러렌즈", name: "eeys LENS × @_miuseyo", desc: "Color Contact · Instagram Creator", thumbUrl: "assets/eeys-miuseyo-poster.jpg", videoUrl: "assets/eeys-miuseyo-preview.mp4", originalUrl: "https://www.instagram.com/_miuseyo/", platform: "Instagram", featured: true, metrics: { followers: "64K" } },
@@ -1893,7 +1934,7 @@ function renderContentGrid() {
           ? `data-external-url="${item.tiktokUrl}"`
           : "";
     const platformBadge = isPreviewCard
-      ? `<span class="ig-badge">${item.platform || "Instagram"}</span><span class="preview-loop-badge">5s LOOP</span>`
+      ? `<span class="ig-badge">${item.reference ? "MARKET REF" : (item.platform || "Instagram")}</span><span class="preview-loop-badge">5s LOOP</span>`
       : hasIg
         ? `<span class="ig-badge">Instagram</span>`
         : hasTikTok
@@ -1927,6 +1968,16 @@ function renderContentGrid() {
             ${item.metrics.shares ? `<span class="performance-item" title="공유"><span class="performance-icon">↗</span>${item.metrics.shares}</span>` : ""}
           </div>`)
       : "";
+    const campaignMarkup = item.campaign
+      ? `<div class="campaign-result-row" aria-label="공개 캠페인 성과">
+          <span class="campaign-result-label">PUBLISHED RESULT</span>
+          ${item.campaign.impressions ? `<span><strong>${item.campaign.impressions}</strong><small>Impressions</small></span>` : ""}
+          ${item.campaign.views ? `<span><strong>${item.campaign.views}</strong><small>Views</small></span>` : ""}
+          ${item.campaign.saves ? `<span><strong>${item.campaign.saves}</strong><small>Saves</small></span>` : ""}
+          ${item.campaign.sales ? `<span><strong>${item.campaign.sales}</strong><small>Sold</small></span>` : ""}
+          ${item.campaign.revenue ? `<span><strong>${item.campaign.revenue}</strong><small>Sales</small></span>` : ""}
+        </div>`
+      : "";
     const originalMarkup = item.originalUrl
       ? `<a class="original-link" href="${item.originalUrl}" target="_blank" rel="noopener noreferrer">${item.platform === "TikTok" ? "TikTok" : "Instagram"}에서 원본 보기 <span aria-hidden="true">↗</span></a>`
       : "";
@@ -1943,6 +1994,8 @@ function renderContentGrid() {
           <p class="content-name">${item.name}</p>
           <p class="content-desc">${item.desc}</p>
           ${metricsMarkup}
+          ${campaignMarkup}
+          ${item.reference ? '<p class="market-reference-note">외부 공개 자료 기반 시장 사례</p>' : ""}
           ${originalMarkup}
         </div>
       </article>
@@ -2204,7 +2257,7 @@ function initAdAttribution() {
 // 4) 리드 폼 제출 — EmailJS
 // Service ID는 연결 완료. Template ID / Public Key만 채우면 실제 이메일 전송됩니다.
 // EmailJS 템플릿 변수 권장: to_email, company, name, phone, email, reply_to,
-// categories, message, utm_source, utm_medium, utm_campaign, utm_content,
+// website, services, categories, message, utm_source, utm_medium, utm_campaign, utm_content,
 // utm_term, utm_id, fbclid, page_url
 // ---------------------------------------------------------
 const EMAILJS_SERVICE_ID = "service_32ezdeu";
@@ -2223,7 +2276,20 @@ function emailJsReady() {
 function formToEmailParams(form) {
   const fd = new FormData(form);
   const categories = fd.getAll("category").join(", ");
+  const services = fd.getAll("service").join(", ");
   const read = (key) => (fd.get(key) || "").toString().trim();
+  const website = read("website");
+  const rawMessage = read("message");
+  const isDetailed = form.id === "leadForm";
+  const detailedMessage = isDetailed
+    ? [
+        website ? `[회사 공식 사이트] ${website}` : "",
+        services ? `[관심 서비스] ${services}` : "[관심 서비스] 미선택",
+        categories ? `[관심 카테고리] ${categories}` : "[관심 카테고리] 미선택",
+        rawMessage ? `[문의 내용] ${rawMessage}` : "[문의 내용] 별도 기재 없음",
+      ].filter(Boolean).join("\n")
+    : (rawMessage || "빠른 문의 폼에서 접수됨");
+
   return {
     to_email: INQUIRY_TO_EMAIL,
     company: read("company"),
@@ -2231,8 +2297,10 @@ function formToEmailParams(form) {
     phone: read("phone"),
     email: read("email"),
     reply_to: read("email"),
+    website,
+    services,
     categories,
-    message: read("message") || "빠른 문의 폼에서 접수됨",
+    message: detailedMessage,
     utm_source: read("utm_source"),
     utm_medium: read("utm_medium"),
     utm_campaign: read("utm_campaign"),
