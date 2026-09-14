@@ -1430,6 +1430,40 @@ input:focus,textarea:focus { border-color:#ff3c72; box-shadow:0 0 0 3px rgba(255
   .metric-label{font-size:6px}
 }
 
+
+/* Tonakai cleanup: only brand-side actions pop */
+.tonakai-brand-action-card{
+  position:relative;
+  background:linear-gradient(145deg,#f7f7f8 0%,#e9e9ec 100%) !important;
+  border-color:rgba(255,255,255,.78) !important;
+  box-shadow:0 10px 34px rgba(255,255,255,.07);
+}
+.tonakai-brand-action-card:hover{
+  background:linear-gradient(145deg,#fff 0%,#eeeeF1 100%) !important;
+  border-color:#fff !important;
+}
+.tonakai-brand-action-card .tonakai-step-no{
+  color:#ff476f !important;
+}
+.tonakai-brand-action-card h4{
+  color:#111114 !important;
+}
+.tonakai-brand-action-card p{
+  color:#5f5f67 !important;
+}
+.tonakai-brand-action-badge{
+  position:absolute;
+  top:14px;
+  right:14px;
+  padding:5px 7px;
+  border-radius:999px;
+  background:#111114;
+  color:#fff;
+  font-size:7px;
+  font-weight:850;
+  letter-spacing:.12em;
+}
+
 </style>
 
 <!-- Meta Pixel Code — 아래 YOUR_PIXEL_ID를 Meta 이벤트 관리자에서 발급받은 실제 Pixel ID로 교체하세요 -->
@@ -1549,14 +1583,7 @@ fbq('track', 'PageView');
         모집 등록부터 일본어 현지화, 크리에이터 커뮤니케이션과 게시물 회수까지
         M2IE가 운영합니다.
       </p>
-
-      <div class="tonakai-brand-only">
-        <span class="tonakai-brand-only-label">BRAND ONLY NEEDS</span>
-        <span><b>01</b> 제품·셀링포인트 제공</span>
-        <span><b>02</b> 후보 크리에이터 확인</span>
-        <span><b>03</b> 제품 발송</span>
-      </div>
-    </div>
+</div>
 
     <div class="tonakai-marquee" aria-label="Tonakai 캠페인 진행 과정">
       <div class="tonakai-marquee-track">
@@ -1576,15 +1603,17 @@ fbq('track', 'PageView');
             <h4>Tonakai 공개 모집</h4>
             <p>제품을 실제로 써보고 싶은 일본 크리에이터가 직접 지원합니다.</p>
           </article>
-          <article class="tonakai-marquee-card">
-            <span class="tonakai-step-no">04 · MATCH</span>
-            <h4>브랜드 맞춤 선정</h4>
-            <p>팔로워 수뿐 아니라 콘텐츠 톤·오디언스·과거 콘텐츠까지 고려합니다.</p>
+          <article class="tonakai-marquee-card tonakai-brand-action-card">
+            <span class="tonakai-brand-action-badge">BRAND ACTION</span>
+            <span class="tonakai-step-no">04 · SELECT</span>
+            <h4>크리에이터 선정</h4>
+            <p>M2IE가 정리한 후보 중 원하는 크리에이터만 선택하면 됩니다.</p>
           </article>
-          <article class="tonakai-marquee-card">
+          <article class="tonakai-marquee-card tonakai-brand-action-card">
+            <span class="tonakai-brand-action-badge">BRAND ACTION</span>
             <span class="tonakai-step-no">05 · SHIP</span>
-            <h4>주소 회수 · 제품 발송</h4>
-            <p>M2IE가 주소를 일괄 취합해 브랜드에 전달합니다.</p>
+            <h4>제품 발송</h4>
+            <p>M2IE가 정리한 주소로 제품만 발송하면 됩니다.</p>
           </article>
           <article class="tonakai-marquee-card">
             <span class="tonakai-step-no">06 · COLLECT</span>
@@ -1609,15 +1638,17 @@ fbq('track', 'PageView');
             <h4>Tonakai 공개 모집</h4>
             <p>제품을 실제로 써보고 싶은 일본 크리에이터가 직접 지원합니다.</p>
           </article>
-          <article class="tonakai-marquee-card">
-            <span class="tonakai-step-no">04 · MATCH</span>
-            <h4>브랜드 맞춤 선정</h4>
-            <p>팔로워 수뿐 아니라 콘텐츠 톤·오디언스·과거 콘텐츠까지 고려합니다.</p>
+          <article class="tonakai-marquee-card tonakai-brand-action-card">
+            <span class="tonakai-brand-action-badge">BRAND ACTION</span>
+            <span class="tonakai-step-no">04 · SELECT</span>
+            <h4>크리에이터 선정</h4>
+            <p>M2IE가 정리한 후보 중 원하는 크리에이터만 선택하면 됩니다.</p>
           </article>
-          <article class="tonakai-marquee-card">
+          <article class="tonakai-marquee-card tonakai-brand-action-card">
+            <span class="tonakai-brand-action-badge">BRAND ACTION</span>
             <span class="tonakai-step-no">05 · SHIP</span>
-            <h4>주소 회수 · 제품 발송</h4>
-            <p>M2IE가 주소를 일괄 취합해 브랜드에 전달합니다.</p>
+            <h4>제품 발송</h4>
+            <p>M2IE가 정리한 주소로 제품만 발송하면 됩니다.</p>
           </article>
           <article class="tonakai-marquee-card">
             <span class="tonakai-step-no">06 · COLLECT</span>
@@ -1626,22 +1657,6 @@ fbq('track', 'PageView');
           </article>
         </div>
       </div>
-    </div>
-
-    <div class="wrap tonakai-marquee-foot">
-      <div class="tonakai-marquee-message">
-        <span>WHY OPEN RECRUITMENT?</span>
-        <strong>“하고 싶은 사람”이 만드는 콘텐츠는 광고보다 실제 사용 후기에 가깝습니다.</strong>
-      </div>
-      <div class="tonakai-proof">
-        <span>eeys LENS</span>
-        <span>Qoo10 종합 최고 <strong>4위</strong></span>
-        <span>복수 SKU <strong>당일 완판</strong></span>
-      </div>
-      <p class="tonakai-compliance-note">
-        * PR 표기, 薬機法·景品表示法 등 일본 광고 표현 기준을 고려해 운영을 지원합니다.
-        본 내용은 일반적 안내이며 법률 자문을 의미하지 않습니다.
-      </p>
     </div>
   </section>
 
