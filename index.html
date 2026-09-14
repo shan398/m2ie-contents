@@ -1511,17 +1511,14 @@ function bindFormSubmit({ form, statusEl, submitBtn, idleLabel, sendingLabel, su
         window.fbq("track", "Lead");
       }
     } catch (err) {
-      if (err && err.message === "EMAILJS_CONFIG_MISSING") {
-        statusEl.textContent = "EmailJS의 Template ID와 Public Key를 설정하면 바로 이메일로 전송됩니다.";
-      } else {
-        console.error("[M2IE] EmailJS send error:", err);
-        statusEl.textContent = "전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
-      }
-      statusEl.classList.add("error");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = idleLabel;
-    }
+  console.error("EmailJS error:", err);
+
+  statusEl.textContent =
+    "전송 실패: " +
+    (err?.text || err?.message || "알 수 없는 오류가 발생했습니다.");
+
+  statusEl.classList.add("error");
+}
   });
 }
 
